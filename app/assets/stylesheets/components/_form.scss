@@ -16,7 +16,8 @@
   display: grid;
   gap: var(--space-1);
 
-  label { font-weight: 550; }
+  label,
+  &__label { font-weight: 550; }
 
   input:not([type="checkbox"], [type="radio"]),
   select,

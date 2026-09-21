@@ -1,0 +1,9 @@
+<p>Hello <%= @user.name %>,</p>
+
+<p><%= @user.invited_by&.name || "Someone" %> invited you to join
+  <strong><%= @user.account.name %></strong> on Standup App.</p>
+
+<p><%= link_to "Accept invitation", edit_invitation_url(@token) %></p>
+
+<p>This link is valid for 7 days. If you don't want to join,
+  just ignore this email.</p>

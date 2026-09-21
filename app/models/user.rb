@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Invitable
+
   has_prefix_id :u
   has_secure_password
   has_many :sessions, dependent: :destroy

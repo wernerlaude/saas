@@ -1,0 +1,9 @@
+<%# app/views/invitation_mailer/instructions_email.text.erb %>
+Hello <%= @user.name %>,
+
+<%= @user.invited_by&.name || "Someone" %> invited you to join <%= @user.account.name %> on Standup App.
+
+Accept the invitation:
+<%= edit_invitation_url(@token) %>
+
+This link is valid for 7 days. If you don't want to join, just ignore this email.

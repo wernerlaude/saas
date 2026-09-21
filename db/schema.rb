@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_21_132714) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_133945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_21_132714) do
     t.bigint "account_id"
     t.datetime "created_at", null: false
     t.string "email_address", null: false
+    t.datetime "invitation_accepted_at"
+    t.datetime "invitation_created_at"
+    t.bigint "invited_by_id"
     t.string "name", null: false
     t.string "password_digest", null: false
     t.string "role", default: "user", null: false
@@ -49,8 +52,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_21_132714) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
   end
 
   add_foreign_key "accounts", "users"
   add_foreign_key "users", "accounts"
+  add_foreign_key "users", "users", column: "invited_by_id"
 end
