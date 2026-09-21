@@ -1,4 +1,3 @@
-# app/controllers/registrations_controller.rb
 class RegistrationsController < ApplicationController
   allow_unauthenticated_access
 
@@ -10,6 +9,10 @@ class RegistrationsController < ApplicationController
   def create
     @user = User.new(user_params)
     @account = @user.account = Account.new(account_params.merge(user: @user))
+
+    # Wer ein Konto anlegt, verwaltet es. Eingeladene User bekommen
+    # später den Default :user.
+    @user.role = :admin
 
     if @user.save
       start_new_session_for @user
