@@ -1,8 +1,9 @@
 <header class="app-header">
-  <%= link_to "SaaS App", root_path, class: "app-header__brand" %>
+  <%= link_to "Standup App", root_path, class: "app-header__brand" %>
 
   <button class="btn btn--ghost app-header__user" popovertarget="user-menu">
-    Hi, <%= Current.user.name %>
+    Hi, <%= current_user.name %>
+    <span class="muted">(<%= current_account.name %>)</span>
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path d="M5.3 7.3a1 1 0 0 1 1.4 0L10 10.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4z"/>
     </svg>
@@ -11,8 +12,8 @@
   <div id="user-menu" class="menu" popover>
     <%= link_to "Profile", "#" %>
     <%= link_to "Settings", "#" %>
+    <%= link_to "Team members", account_users_path %>
     <hr>
-    <%# Kapitel 4: button_to "Log Out", session_path, method: :delete %>
     <%= button_to "Log Out", session_path, method: :delete %>
   </div>
 </header>

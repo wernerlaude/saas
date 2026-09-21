@@ -1,4 +1,3 @@
-# spec/requests/activity_spec.rb
 require "rails_helper"
 
 RSpec.describe "Activity", type: :request do

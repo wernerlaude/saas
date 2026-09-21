@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   resources :registrations, only: %i[new create]
   resources :invitations, only: %i[edit update], param: :token
 
+  # /account/users – Benutzerverwaltung des eigenen Accounts
+  scope "account", as: "account" do
+    resources :users, except: :show
+  end
+
   get "activity/mine"
   get "activity/feed"
 

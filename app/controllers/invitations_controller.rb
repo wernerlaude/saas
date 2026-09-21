@@ -1,4 +1,3 @@
-# app/controllers/invitations_controller.rb
 class InvitationsController < ApplicationController
   allow_unauthenticated_access
   before_action :set_user_by_token

@@ -1,0 +1,39 @@
+// app/assets/stylesheets/components/_table.scss
+
+// Breite Tabellen scrollen in sich, nie die ganze Seite
+.table-wrap {
+  overflow-x: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  th {
+    font-size: var(--text-s);
+    font-weight: 600;
+    color: var(--color-ink-muted);
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover { background: var(--color-bg); }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-1);
+    white-space: nowrap;
+  }
+}
