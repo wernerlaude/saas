@@ -43,5 +43,5 @@ group :test do
 end
 
 gem "dartsass-rails", "~> 0.5.1"
-gem "json", "~> 2.10"
+gem "json", "~> 3.0"
 gem "prefixed_ids", "~> 1.8"
