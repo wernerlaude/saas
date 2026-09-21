@@ -1,0 +1,51 @@
+// app/assets/stylesheets/components/_button.scss
+// Nutzbar auf <button>, <a> und button_to
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 550;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover { border-color: var(--color-ink-muted); color: var(--color-ink); }
+
+  svg { width: 1.125rem; height: 1.125rem; }
+
+  &--primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-ink);
+
+    &:hover {
+      background: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+      color: var(--color-accent-ink);
+    }
+  }
+
+  &--danger {
+    color: var(--color-blocker);
+    &:hover { border-color: var(--color-blocker); color: var(--color-blocker); }
+  }
+
+  &--ghost {
+    border-color: transparent;
+    background: transparent;
+    &:hover { background: var(--color-bg); border-color: transparent; }
+  }
+
+  // Nur Icon – immer mit aria-label im Markup
+  &--icon { padding: var(--space-2); }
+
+  &:disabled, &[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+}
+
+// button_to erzeugt ein <form> drumherum
+form.button_to { display: inline; }

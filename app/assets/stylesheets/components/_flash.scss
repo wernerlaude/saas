@@ -1,0 +1,54 @@
+// app/assets/stylesheets/components/_flash.scss
+// Toast-Meldungen oben rechts (ersetzt das Tailwind-Transition-Markup)
+
+.toasts {
+  position: fixed;
+  top: calc(var(--header-height) + var(--space-3));
+  right: var(--space-4);
+  z-index: 20;
+  display: grid;
+  gap: var(--space-2);
+  width: min(24rem, calc(100vw - 2 * var(--space-4)));
+}
+
+.flash {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-left: 4px solid;
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-float);
+  animation: flash-in 220ms ease-out;
+
+  &--notice { border-left-color: var(--color-done); }
+  &--alert  { border-left-color: var(--color-blocker); }
+
+  &__message { flex: 1; }
+
+  &__close {
+    flex: none;
+    padding: var(--space-1);
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    color: var(--color-ink-muted);
+    cursor: pointer;
+
+    &:hover { color: var(--color-ink); background: var(--color-bg); }
+
+    svg { width: 1rem; height: 1rem; }
+  }
+
+  &.is-leaving { animation: flash-out 180ms ease-in forwards; }
+}
+
+@keyframes flash-in {
+  from { opacity: 0; transform: translateX(1rem); }
+}
+
+@keyframes flash-out {
+  to { opacity: 0; transform: translateX(1rem); }
+}

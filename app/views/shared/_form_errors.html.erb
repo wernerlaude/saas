@@ -1,0 +1,10 @@
+<% if model.errors.any? %>
+  <div class="error-summary" role="alert">
+    <p><strong>Please fix the following:</strong></p>
+    <ul>
+      <% model.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

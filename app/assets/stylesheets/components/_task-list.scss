@@ -1,0 +1,35 @@
+// app/assets/stylesheets/components/_task-list.scss
+// Die Farbe am linken Rand trägt Information: Typ des Tasks (STI)
+
+.task-group {
+  & + & { margin-top: var(--space-4); }
+
+  &__title {
+    font-size: var(--text-s);
+    font-weight: 650;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-2);
+  }
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.task {
+  --task-color: var(--color-todo);
+
+  padding: var(--space-1) var(--space-3);
+  border-left: 3px solid var(--task-color);
+
+  &--todo    { --task-color: var(--color-todo); }
+  &--done    { --task-color: var(--color-done); }
+  &--blocker {
+    --task-color: var(--color-blocker);
+    background: var(--color-alert-bg);
+    border-radius: 0 var(--radius-control) var(--radius-control) 0;
+  }
+}

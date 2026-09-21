@@ -1,0 +1,17 @@
+<%# app/views/layouts/auth.html.erb %>
+<%# Ab Kapitel 4: Login, Registrierung, Passwort, Einladungen %>
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <%= render "layouts/components/head" %>
+  </head>
+
+  <body class="auth">
+    <%= render "layouts/components/flash" %>
+
+    <main class="auth__panel">
+      <p class="auth__brand">SaaS App</p>
+      <%= yield %>
+    </main>
+  </body>
+</html>

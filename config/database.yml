@@ -1,0 +1,59 @@
+default: &default
+  adapter: postgresql
+  port: 5432
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+sqlite: &sqlite
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  primary:
+    <<: *default
+    host: <%= Rails.application.credentials.dig(:database, :host) || 'localhost' %>
+    database: <%= Rails.application.credentials.dig(:database, :database) || 'saas_development' %>
+    username: <%= Rails.application.credentials.dig(:database, :username) || 'wernerlaude' %>
+    password: <%= Rails.application.credentials.dig(:database, :password) || '' %>
+
+
+  cache:
+    <<: *sqlite
+    database: storage/development_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *sqlite
+    database: storage/development_queue.sqlite3
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *sqlite
+    database: storage/development_cable.sqlite3
+    migrations_paths: db/cable_migrate
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: saas_test
+  pool: 5
+
+production:
+  primary:
+    <<: *default
+    host: <%= Rails.application.credentials.dig(:database, :host) || '127.0.0.1' %>
+    database: <%= Rails.application.credentials.dig(:database, :database) || '' %>
+    username: <%= Rails.application.credentials.dig(:database, :username) || 'administrator' %>
+    password: <%= Rails.application.credentials.dig(:database, :password) || '' %>
+
+  cache:
+    <<: *sqlite
+    database: storage/production_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *sqlite
+    database: storage/production_queue.sqlite3
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *sqlite
+    database: storage/production_cable.sqlite3
+    migrations_paths: db/cable_migrate

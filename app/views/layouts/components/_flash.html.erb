@@ -1,0 +1,18 @@
+<% unless flash.empty? %>
+  <div class="toasts" data-turbo-temporary>
+    <% flash.each do |type, message| %>
+      <% is_alert = type.to_s == "alert" %>
+      <div class="flash <%= is_alert ? "flash--alert" : "flash--notice" %>"
+           role="<%= is_alert ? "alert" : "status" %>"
+           data-controller="dismiss"
+           data-dismiss-after-value="<%= is_alert ? 0 : 5000 %>">
+        <p class="flash__message"><%= message %></p>
+        <button type="button" class="flash__close" data-action="dismiss#close" aria-label="Meldung schließen">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M4.3 4.3a1 1 0 0 1 1.4 0L10 8.6l4.3-4.3a1 1 0 1 1 1.4 1.4L11.4 10l4.3 4.3a1 1 0 0 1-1.4 1.4L10 11.4l-4.3 4.3a1 1 0 0 1-1.4-1.4L8.6 10 4.3 5.7a1 1 0 0 1 0-1.4z"/>
+          </svg>
+        </button>
+      </div>
+    <% end %>
+  </div>
+<% end %>

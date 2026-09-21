@@ -1,0 +1,64 @@
+// app/assets/stylesheets/components/_form.scss
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 36rem;
+
+  &__actions {
+    display: flex;
+    gap: var(--space-2);
+    padding-top: var(--space-2);
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+
+  label { font-weight: 550; }
+
+  input:not([type="checkbox"], [type="radio"]),
+  select,
+  textarea {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+    background: var(--color-surface);
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  }
+
+  textarea { min-height: 6rem; resize: vertical; }
+
+  &__hint { font-size: var(--text-s); color: var(--color-ink-muted); }
+
+  // Checkbox/Radio: Label rechts daneben
+  &--inline {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--space-2);
+  }
+}
+
+// Rails umschließt fehlerhafte Felder mit .field_with_errors
+.field_with_errors {
+  display: contents;
+
+  input, select, textarea { border-color: var(--color-blocker) !important; }
+  label { color: var(--color-blocker); }
+}
+
+.error-summary {
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid var(--color-blocker);
+  background: var(--color-alert-bg);
+  border-radius: var(--radius-control);
+
+  ul { margin-top: var(--space-2); padding-left: var(--space-5); }
+}

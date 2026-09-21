@@ -1,0 +1,12 @@
+// app/assets/stylesheets/components/_empty-state.scss
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  border: 1px dashed var(--color-line);
+  border-radius: var(--radius-card);
+  text-align: center;
+  color: var(--color-ink-muted);
+}

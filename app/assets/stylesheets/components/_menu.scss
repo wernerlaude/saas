@@ -1,0 +1,42 @@
+// app/assets/stylesheets/components/_menu.scss
+// Ersatz für die Stimulus-Dropdown-Library aus dem Buch:
+// native Popover API → Schließen per Klick daneben und Esc gratis.
+// Weil das Menü im Header oben rechts sitzt, reicht position: fixed.
+
+.menu {
+  position: fixed;
+  inset: auto;
+  top: calc(var(--header-height) + var(--space-1));
+  right: var(--space-4);
+  min-width: 13rem;
+  padding: var(--space-1);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-float);
+
+  a, button {
+    display: block;
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    color: var(--color-ink);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover { background: var(--color-bg); }
+  }
+
+  // button_to erzeugt ein <form> – im Menü als Block, wie die Links
+  form { display: block; }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+    margin-block: var(--space-1);
+  }
+}

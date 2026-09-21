@@ -1,0 +1,110 @@
+# .github/workflows/ci.yml
+# Ersetzt die von `rails new` erzeugte Datei (mit -T fehlt dort der Test-Job).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  scan_ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Sicherheitsscan (Brakeman)
+        run: bin/brakeman --no-pager
+      - name: Gems auf bekannte Lücken prüfen
+        run: bin/bundler-audit
+
+  scan_js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Importmap-Pakete prüfen
+        run: bin/importmap audit
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: RuboCop
+        run: bin/rubocop -f github
+
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+
+    steps:
+      - name: System-Pakete
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev libyaml-dev
+
+      - uses: actions/checkout@v5
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Datenbank anlegen
+        run: bin/rails db:test:prepare
+
+      - name: SCSS kompilieren
+        run: bin/rails dartsass:build
+
+      - name: RSpec (inkl. System-Specs)
+        run: bundle exec rspec
+
+      - name: Screenshots fehlgeschlagener System-Specs sichern
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: tmp/capybara
+          if-no-files-found: ignore
+
+  # Läuft nur bei Push auf main und nur, wenn alle Prüfungen grün sind.
+  # Bei Pull Requests wird nie deployt.
+  deploy:
+    needs: [ scan_ruby, scan_js, lint, test ]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency: production
+
+    steps:
+      - name: SSH einrichten
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519
+
+      # Der Key ist auf dem Server per command= fest an deploy.sh gebunden –
+      # er kann nichts anderes ausführen.
+      - name: Deploy
+        run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}

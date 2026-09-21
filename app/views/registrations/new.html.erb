@@ -1,0 +1,46 @@
+<% content_for :title, "Sign up" %>
+
+<h1 class="auth__title">Sign up</h1>
+
+<%= form_with model: @user, url: registrations_path, class: "form" do |form| %>
+  <%= render "shared/form_errors", model: @user %>
+
+  <%# Eigenes Objekt "account" → Feldname account[name], ID account_name
+      (so erwarten es account_params und die System-Specs) %>
+  <%= fields_for @account do |account_form| %>
+    <div class="field">
+      <%= account_form.label :name, "Account name" %>
+      <%= account_form.text_field :name, autofocus: true, autocomplete: "organization" %>
+      <p class="field__hint">Your company or team – you can change it later.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, "Your name" %>
+    <%= form.text_field :name, autocomplete: "name" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email_address, "Email address" %>
+    <%= form.email_field :email_address, autocomplete: "username" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.password_field :password, autocomplete: "new-password", maxlength: 72 %>
+    <p class="field__hint">At least 6 characters.</p>
+  </div>
+
+  <div class="field">
+    <%= form.label :password_confirmation, "Repeat password" %>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password", maxlength: 72 %>
+  </div>
+
+  <div class="form__actions">
+    <%= form.submit "Sign up", class: "btn btn--primary" %>
+  </div>
+<% end %>
+
+<p class="auth__links">
+  <%= link_to "Already have an account? Sign in", new_session_path %>
+</p>
